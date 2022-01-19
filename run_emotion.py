@@ -6,6 +6,7 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Set, Union
 
+
 import datasets
 import numpy as np
 import torch
@@ -20,16 +21,15 @@ from model import Wav2Vec2ForCTCnCLS
 from transformers.trainer_utils import get_last_checkpoint
 import os
 
-from transformers import (
-    HfArgumentParser,
-    Trainer,
-    TrainingArguments,
-    Wav2Vec2CTCTokenizer,
-    Wav2Vec2FeatureExtractor,
-    Wav2Vec2Processor,
+from transformers import (HfArgumentParser, 
+    Trainer, 
+    TrainingArguments, 
+    Wav2Vec2CTCTokenizer, 
+    Wav2Vec2FeatureExtractor, 
+    Wav2Vec2Processor, 
     is_apex_available,
-    trainer_utils,
-)
+    trainer_utils
+    ) 
 
 
 if is_apex_available():
@@ -404,7 +404,8 @@ def main():
     model = Wav2Vec2ForCTCnCLS.from_pretrained(
         model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
-        gradient_checkpointing=training_args.gradient_checkpointing,
+        #gradient_checkpointing=training_args.gradient_checkpointing,
+        gradient_checkpointing=True,
         vocab_size=len(processor.tokenizer),
         cls_len=len(cls_label_map),
         alpha=model_args.alpha,
@@ -483,6 +484,7 @@ def main():
         batched=True,
         num_proc=data_args.preprocessing_num_workers,
     )
+
     val_dataset = val_dataset.map(
         prepare_dataset,
         batch_size=training_args.per_device_train_batch_size,

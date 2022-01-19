@@ -5,7 +5,7 @@ export LR=1e-5
 export ACC=4 # batch size * acc = 8
 export WORKER_NUM=4
 
-python run_emotion.py \
+python -m pdb run_emotion.py \
 --output_dir=output/tmp \
 --cache_dir=cache/ \
 --num_train_epochs=100 \
@@ -27,5 +27,6 @@ python run_emotion.py \
 --fp16 \
 --preprocessing_num_workers=$WORKER_NUM \
 --gradient_checkpointing true \
---dataloader_num_workers $WORKER_NUM
+--dataloader_num_workers $WORKER_NUM 2>&1 |tee Logs/run.log
 # --freeze_feature_extractor \
+
